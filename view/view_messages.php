@@ -1,66 +1,3 @@
-<?php
-require_once 'functions.php';
-require_once 'Model/Member.php';
-require_once 'Model/Message.php';
-require_once 'framework/Configuration.php';
-require_once 'framework/Tools.php';
-
-//détermine le destinataire courant
-function get_recipient($user){
-    if(!isset($_GET["param1"]) || $_GET["param1"]==""){
-        return $user;
-    } else{
-        return Member::get_member_by_pseudo($_GET["param1"]);
-    }
-}
-
-//supprime le message dont l'id est dans la request.
-function delete($user){
-    if (isset($_POST['param']) && $_POST['param'] != "")
-    {
-        $post_id = $_POST['param'];
-        $message = Message::get_message($post_id);
-        if ($message && ($message->author == $user || $message->recipient == $user))
-        {
-            $user->delete_message($message);
-            $member = $message->recipient;
-            redirect("messages.php?param1=".$member->pseudo);
-        }
-        else{
-            Tools::abort("Wrong/missing param or action no permited");
-        }
-    }
-    else{
-        Tools::abort("Wrong/missing param or action no permited");   
-    }
-}
-
-$user = get_user_or_redirect();
-
-if(isset($_GET["action"]) && $_GET["action"] != ""){
-    $action = sanitize($_GET["action"]);
-    if($action === "delete"){
-        delete($user);
-    }
-}
-
-$recipient = get_recipient($user);
-
-$errors = [];
-if (isset($_POST['body'])) {
-    $body = $_POST['body'];
-    $private = isset($_POST['private']) ? TRUE : FALSE;
-    $message = new Message($user, $recipient, $body, $private);
-    $errors = $message->validate();
-    if(empty($errors)){
-        $user->write_message($message);                
-    }
-}
-
-$messages = $recipient->get_messages();
-$web_root = Configuration::get("web_root"); 
-?>
-
 <!DOCTYPE html>
 <html>
     <head>
@@ -74,7 +11,7 @@ $web_root = Configuration::get("web_root");
         <div class="title"><?= $recipient->pseudo ?>'s Messages</div>
         <?php include('view/menu.html'); ?>
         <div class="main">
-            <form id="message_form" action="messages.php?param1=<?= $recipient->pseudo ?>" method="post">
+            <form id="message_form" action="message/index/<?= $recipient->pseudo ?>" method="post">
                 Type here to leave a message:<br>
                 <textarea id="body" name="body" rows='3'></textarea><br>
                 <input id="private" name="private" type="checkbox">Private message<br>
@@ -110,8 +47,8 @@ $web_root = Configuration::get("web_root");
                             <td><input type='checkbox' disabled <?= ($message->private ? ' checked' : '') ?>></td>
                             <td>
                                 <?php if($user == $message->author || $user == $message->recipient): ?>
-                                    <form class='link' action='messages.php?action=delete' method='post' >
-                                    	<input type='text' name='param' value='<?= $message->post_id ?>' hidden>
+                                    <form class='link' action='message/delete' method='post' >
+                                    	<input type='text' name='param' value='<?= $message->post_id ?>' hidden><?= var_dump($message->post_id);?>
                                     	<input type='submit' value='erase'>
                                     </form>   
                                 <?php endif; ?>

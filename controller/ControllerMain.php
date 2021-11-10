@@ -51,10 +51,11 @@ class ControllerMain extends Controller {
             if(count($errors)==0){
                 $member->update();
                 $this->log_user($member);
-                
+                  
             }
             
-        }$view=new View("signup");
-                $view->show(array("pseudo"=>$pseudo,"password"=>$password,"password_confirm"=>$password_confirm,"errors"=>$errors));
+        }
+        $view=new View("signup");
+        $view->show(array("pseudo"=>$pseudo,"password"=>$password,"password_confirm"=>$password_confirm,"errors"=>$errors));
     }
 }

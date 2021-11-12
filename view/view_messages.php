@@ -48,7 +48,7 @@
                             <td>
                                 <?php if($user == $message->author || $user == $message->recipient): ?>
                                     <form class='link' action='message/delete' method='post' >
-                                    	<input type='text' name='param' value='<?= $message->post_id ?>' hidden><?= var_dump($message->post_id);?>
+                                    	<input type='text' name='param' value='<?= $message->post_id ?>' hidden>
                                     	<input type='submit' value='erase'>
                                     </form>   
                                 <?php endif; ?>

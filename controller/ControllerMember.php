@@ -60,7 +60,19 @@ class ControllerMember extends Controller {
     public function members(){
         $member=$this->get_user_or_redirect();
         $members=Member::get_members();
+        $relations_of_member=$member->get_other_members_and_relationships();
+        echo "<pre>";
+        print_r($relations_of_member);
+        echo "</pre>";
+        echo "<pre>";
+        print_r($members);
+        echo "</pre>";
+       
         $view=new View("members");
-        $view->show(array("members"=>$members));
+        $view->show(array("members"=>$members,"relations"=>$relations_of_member));
+    }
+    function follow(){
+        $following="follow";
+
     }
 }

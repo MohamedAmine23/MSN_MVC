@@ -21,12 +21,7 @@ class ControllerMessage extends Controller{
             $user->write_message($message);                
         }
     }
-    //if(isset($_GET["action"]) && $_GET["action"] != ""){
-      //  $action = $_GET["action"];
-        //if($action === "erase"){
-          //  $this->delete($user);
-        //}
-    //}
+   
     $view=new View("messages");
     $messages = $recipient->get_messages();
     $view->show(array("messages"=>$messages,"recipient"=>$recipient,"errors"=>$errors,"user"=>$user));

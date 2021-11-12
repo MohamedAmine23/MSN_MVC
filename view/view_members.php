@@ -14,7 +14,41 @@
     <div class="main">
         <ul>
             <?php foreach($members as $member): ?>
-                <li><a href="member/profile/<?=$member->pseudo?>"><?=$member->pseudo?></a></li>
+                <?php foreach($relations as $relation): ?>
+                    <?php if($member->pseudo===$relation['pseudo']): ?>
+                        <li>
+                            <a href="member/profile/<?=$member->pseudo?>"><?=$member->pseudo?></a>
+                            <form class="link" action="member/follow" method="Post">
+                            <input type="text" name="param" value="<?=$member->pseudo?>" hidden>
+                            
+                            <?php if($relation['follower']==="0"):?>
+
+                                <?php if($relation['followee']==="0"): ?>
+                                    <input type="submit" name="action" value="[follow]">
+
+                                <?php elseif($relation['followee']==="0"): ?>
+                                    → is following you<input type="submit" name="action" value="[recip]">
+
+                                <?php endif; ?>
+
+                            <?php elseif($relation['follower']==="1"  ):?>
+
+                                <?php if($relation['followee']==="0"): ?>
+                                    ← you are following
+
+                                <?php elseif($relation['followee']==="1"): ?>
+                                    ↔ is a mutual friend
+
+                                <?php endif; ?>
+
+                                <input type="submit" name="action" value="[drop]">
+
+                            <?php endif; ?> 
+
+                            </form>   
+                        </li>
+                <?php endif; ?>
+                <?php endforeach; ?>
             <?php endforeach;  ?>
 
         </ul>

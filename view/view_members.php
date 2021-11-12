@@ -21,22 +21,22 @@
                             <form class="link" action="member/follow" method="Post">
                             <input type="text" name="param" value="<?=$member->pseudo?>" hidden>
                             
-                            <?php if($relation['follower']==="0"):?>
+                            <?php if($relation['follower']=="0"):?>
 
-                                <?php if($relation['followee']==="0"): ?>
+                                <?php if($relation['followee']=="0"): ?>
                                     <input type="submit" name="action" value="[follow]">
 
-                                <?php elseif($relation['followee']==="0"): ?>
+                                <?php elseif($relation['followee']=="1"): ?>
                                     → is following you<input type="submit" name="action" value="[recip]">
 
                                 <?php endif; ?>
 
-                            <?php elseif($relation['follower']==="1"  ):?>
+                            <?php elseif($relation['follower']=="1"  ):?>
 
-                                <?php if($relation['followee']==="0"): ?>
+                                <?php if($relation['followee']=="0"): ?>
                                     ← you are following
 
-                                <?php elseif($relation['followee']==="1"): ?>
+                                <?php elseif($relation['followee']=="1"): ?>
                                     ↔ is a mutual friend
 
                                 <?php endif; ?>

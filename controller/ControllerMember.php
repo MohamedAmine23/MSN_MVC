@@ -61,18 +61,40 @@ class ControllerMember extends Controller {
         $member=$this->get_user_or_redirect();
         $members=Member::get_members();
         $relations_of_member=$member->get_other_members_and_relationships();
+       
+        //---DEBUG---
         echo "<pre>";
         print_r($relations_of_member);
         echo "</pre>";
-        echo "<pre>";
-        print_r($members);
-        echo "</pre>";
+       // echo "<pre>";
+       // print_r($members);
+       // echo "</pre>";
        
         $view=new View("members");
         $view->show(array("members"=>$members,"relations"=>$relations_of_member));
     }
     function follow(){
-        $following="follow";
-
+        $user=$this->get_user_or_redirect();
+        if(isset($_POST['param']) && $_POST['param'] !== ""){
+            $member=Member::get_member_by_pseudo($_POST['param']);
+            if(isset($_POST['action']) && $_POST['action'] !=="" ){
+                $action=$_POST['action'];
+                if($action=="[recip]"|| $action="[follow]") {
+                    $user->follow($member);
+                }
+                else if($action=="[drop]"){
+                    $user->unfollow($member);
+                } 
+            }
+            
+        }
+        $this->redirect("member","members");
     }
+    function friends(){
+        $user=$this->get_user_or_redirect();
+        $relations=$user->get_other_members_and_relationships();
+        $view = new View("friends");
+        $view->show(array("relations"=>$relations));
+    }
+    
 }

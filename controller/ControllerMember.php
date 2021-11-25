@@ -63,9 +63,9 @@ class ControllerMember extends Controller {
         $relations_of_member=$member->get_other_members_and_relationships();
        
         //---DEBUG---
-        echo "<pre>";
-        print_r($relations_of_member);
-        echo "</pre>";
+       // echo "<pre>";
+        //print_r($relations_of_member);
+        //echo "</pre>";
        // echo "<pre>";
        // print_r($members);
        // echo "</pre>";
@@ -79,7 +79,7 @@ class ControllerMember extends Controller {
             $member=Member::get_member_by_pseudo($_POST['param']);
             if(isset($_POST['action']) && $_POST['action'] !=="" ){
                 $action=$_POST['action'];
-                if($action=="[recip]"|| $action="[follow]") {
+                if($action=="[recip]"|| $action=="[follow]") {//peut etre regroupé pas besoin de savoir si c'est recip ou follow
                     $user->follow($member);
                 }
                 else if($action=="[drop]"){

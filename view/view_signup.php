@@ -24,11 +24,11 @@
             
             if(pattern.test(pseudo.value)==false){
                 errPseudo.innerHTML="<span style='color:red'>doit contenir entre 8 et 16 caract&egrave;res</span>";
-                submit.disabled=true;
+               
             }
             else if(!/^[a-zA-Z][a-zA-Z0-9]*$/.test(pseudo.value)){
                 errPseudo.innerHTML+="<span style='color:red'>doit contenir que des lettres et des chiffres</span>";
-                submit.disabled=true;
+               
             }else{
                 state=true;
             }
@@ -43,11 +43,11 @@
 
             if(pattern.test(password.value)==false){
                 errPassword.innerHTML+="<span style='color:red'>-doit contenir entre 8 et 16 caract&egrave;res</span>";
-                submit.disabled=true;
+                
             }
             if(!/[A-Z]/.test(password.value)){
                 errPassword.innerHTML+="<span style='color:red'>-doit au moin un caract&egrave;res majuscule</span>";
-                submit.disabled=true;
+              
             }
             if(!/\d/.test(password.value)){
                 errPassword.innerHTML+="<span style='color:red'>-doit au moins un chiffre-</span>";
@@ -62,7 +62,7 @@
         function checkPasswords(){
             errPassword_confirm.innerHTML="";
             let state=false;
-            if(checkPassword){
+            if(checkPassword()){
                 if(password.value!=password_confirm.value){
                 errPassword_confirm.innerHTML="<span style='color:red'>-doit être identiques</span>";
                 }
@@ -74,6 +74,13 @@
         };
         function checkAll(){
 
+            if(checkPseudo()&&checkPassword()&&checkPasswords()){
+                
+                return true;
+            }else{
+                console.log("erreur");
+                return false;
+            }
         }
         
            
@@ -88,7 +95,7 @@
     <div class="main">
         Please enter your details to sign up :
         <br><br>
-        <form id="signupForm" action="main/signup" method="POST">
+        <form id="signupForm" action="main/signup" method="POST" onsubmit="checkAll()">
             <table>
                 <tr>
                     <td>Pseudo:</td>
@@ -106,7 +113,7 @@
                     <td id="errPassword_confirm"></td>
                 </tr>
             </table>
-            <input id="submit" type="submit" value="Sign Up" onsubmit="checkAll()">
+            <input id="submit" type="submit" value="Sign Up" >
         </form>
         <?php if(count($errors)!=0):?>
             <div class="errors">

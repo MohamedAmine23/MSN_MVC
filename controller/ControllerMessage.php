@@ -24,7 +24,8 @@ class ControllerMessage extends Controller{
    
     $view=new View("messages");
     $messages = $recipient->get_messages();
-    $view->show(array("messages"=>$messages,"recipient"=>$recipient,"errors"=>$errors,"user"=>$user));
+    $message_json=$recipient->get_visible_messages_as_json($user);
+    $view->show(array("messages"=>$messages,"recipient"=>$recipient,"errors"=>$errors,"user"=>$user,"messages_json"=>$message_json));
 
     }
     

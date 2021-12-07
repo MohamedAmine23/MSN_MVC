@@ -23,14 +23,14 @@
             let state=false;
             
             if(pattern.test(pseudo.value)==false){
-                errPseudo.innerHTML="<span style='color:red'>doit contenir entre 8 et 16 caract&egrave;res</span>";
+                errPseudo.innerHTML="<span style='color:red'>doit contenir entre 3 et 16 caract&egrave;res</span>";
                
             }
             else if(!/^[a-zA-Z][a-zA-Z0-9]*$/.test(pseudo.value)){
                 errPseudo.innerHTML+="<span style='color:red'>doit contenir que des lettres et des chiffres</span>";
                
             }else{
-                state=true;
+               return true;
             }
             return state;
             
@@ -40,7 +40,7 @@
             errPassword.innerHTML="";
             pattern=/^.{8,16}$/;
             let state=false;
-
+            password_confirm.disabled=true;
             if(pattern.test(password.value)==false){
                 errPassword.innerHTML+="<span style='color:red'>-doit contenir entre 8 et 16 caract&egrave;res</span>";
                 
@@ -55,7 +55,8 @@
             if(!/['";:,.\/?\\-]/.test(password.value)){
                 errPassword.innerHTML+="<span style='color:red'>-doit au moins une ponctuation</span>";
             }else{
-                state=true;
+                password_confirm.disabled=false;
+               return true;
             }
             return state;
         };
@@ -64,13 +65,15 @@
             let state=false;
             if(checkPassword()){
                 if(password.value!=password_confirm.value){
-                errPassword_confirm.innerHTML="<span style='color:red'>-doit être identiques</span>";
-                }
-            }else{
-                state = true;
+                errPassword_confirm.innerHTML="<span style='color:red'>doit être identiques</span>";
+                
+                }else{
+                return true;
+            }
+                
             }
             return state;
-            
+                
         };
         function checkAll(){
 
@@ -79,6 +82,9 @@
                 return true;
             }else{
                 console.log("erreur");
+                console.log(checkPassword());
+                console.log(checkPseudo());
+                console.log(checkPasswords());
                 return false;
             }
         }
@@ -95,21 +101,21 @@
     <div class="main">
         Please enter your details to sign up :
         <br><br>
-        <form id="signupForm" action="main/signup" method="POST" onsubmit="checkAll()">
+        <form id="signupForm" action="main/signup" method="POST" onsubmit="return checkAll()">
             <table>
                 <tr>
                     <td>Pseudo:</td>
-                    <td><input type="text" id="pseudo" name="pseudo" size="16" value="<?= $pseudo ?>" onchange="checkPseudo()" ></td>
+                    <td><input type="text" id="pseudo" name="pseudo" size="16" value="<?= $pseudo ?>" oninput="checkPseudo()" ></td>
                     <td id="errPseudo"></td>
                 </tr>
                 <tr>
                     <td>Password:</td>
-                    <td><input type="password" id="password" name="password" size="16" value="<?=$password?>" onchange="checkPassword()"></td>
+                    <td><input type="password" id="password" name="password" size="16" value="<?=$password?>" oninput="checkPassword()"></td>
                     <td id="errPassword"></td>
                 </tr>
                 <tr>
                     <td>Confirm your Password:</td>
-                    <td><input type="password" id="password_confirm" name ="password_confirm"  size="16" value="<?=$password_confirm ?>" onchange="checkPasswords()" > </td>
+                    <td><input type="password" id="password_confirm" name ="password_confirm"  size="16" value="<?=$password_confirm ?>" oninput="checkPasswords()" > </td>
                     <td id="errPassword_confirm"></td>
                 </tr>
             </table>

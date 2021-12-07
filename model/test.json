@@ -1,0 +1,43 @@
+[{
+    "id": "104",
+    "datetime": "2021-11-06 21:59:51",
+    "author": "ben",
+    "body": "ok",
+    "private": "0",
+    "erasable": true
+}, {
+    "id": "9",
+    "datetime": "2015-07-09 10:58:15",
+    "author": "ben",
+    "body": "test",
+    "private": "0",
+    "erasable": true
+}, {
+    "id": "8",
+    "datetime": "2015-07-09 10:58:10",
+    "author": "ben",
+    "body": "test",
+    "private": "1",
+    "erasable": true
+}, {
+    "id": "5",
+    "datetime": "2015-07-09 10:14:03",
+    "author": "caro",
+    "body": "message de caro",
+    "private": "0",
+    "erasable": true
+}, {
+    "id": "3",
+    "datetime": "2015-07-09 10:12:59",
+    "author": "ben",
+    "body": "message 2",
+    "private": "0",
+    "erasable": true
+}, {
+    "id": "2",
+    "datetime": "2015-07-09 10:11:33",
+    "author": "ben",
+    "body": "message 1",
+    "private": "0",
+    "erasable": true
+}]

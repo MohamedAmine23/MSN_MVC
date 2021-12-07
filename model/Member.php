@@ -189,4 +189,36 @@ class Member extends Model {
         return $saveTo;
     }
 
+    public function get_visible_messages_as_json($user){
+        $str="";
+        $messages=$this->get_messages();
+        foreach($messages as $message){
+            $post_id=$message->post_id;
+            $datetime=$message->date_time;
+            $author=$message->author;
+            $recipient=$message->recipient;
+            $body=$message->body;
+            $private=$message->private;
+            
+            $erasable=$user==$author||$user==$recipient;
+            if(($private&&($author==$user||$recipient==$user))||!$private){
+                $post_id=json_encode($post_id);
+                $datetime=json_encode($datetime);
+                $author_pseudo=json_encode($author->pseudo);
+                $recipient=json_encode($recipient);
+                $body=json_encode($body);
+                $private=json_encode($private);
+                $erasable=json_encode($erasable);
+                $str .="{\"id\" :$post_id,\"datetime\" :$datetime,\"author\" :$author_pseudo,
+                    \"body\":$body,\"private\":$private,\"erasable\":$erasable},"; 
+            }
+            
+        }
+        if($str !==""){
+                $str=substr($str,0,strlen($str)-1);
+            }
+                
+        return "[$str]";
+
+    }
 }
